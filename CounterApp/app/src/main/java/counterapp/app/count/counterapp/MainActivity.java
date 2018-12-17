@@ -8,13 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextViewCount;
-    private Button mButtonAdd, mButtonReset, mButtonMultiple;
+    private Button mButtonAdd, mButtonReset, mButtonMultiple, mButtonAnimate;
     private int count =0;
 
     @Override
@@ -53,14 +55,25 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        //On click button multiple
+        mButtonAnimate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                count = count + 1;
+                mTextViewCount.setText("Count : "+count);
+               RunAnimation();
             }
         });
+
+    }
+
+    private void RunAnimation()
+    {
+        Animation a = AnimationUtils.loadAnimation(this, R.anim.scale);
+        a.reset();
+       // TextView tv = (TextView) findViewById(R.id.firstTextView);
+        mTextViewCount.clearAnimation();
+        mTextViewCount.startAnimation(a);
     }
 
     private void initializeViewsAndVariables() {
@@ -68,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         mButtonAdd = findViewById(R.id.button_count);
         mButtonReset = findViewById(R.id.button_reset);
         mButtonMultiple = findViewById(R.id.button_count_multiple);
+        mButtonAnimate = findViewById(R.id.button_animate);
 
         mTextViewCount.setText("Count : "+count);
     }
@@ -87,9 +101,9 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             return true;
-        }
+        }*/
 
         return super.onOptionsItemSelected(item);
     }
